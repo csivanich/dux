@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/python
 
 # Copyright (C) 2015 Chris Sivanich
 # 
@@ -21,6 +21,7 @@ import random
 import re
 import shlex
 import subprocess
+import tmuxp
 
 from subprocess import CalledProcessError
 from subprocess import Popen
@@ -28,36 +29,11 @@ from subprocess import STDOUT
 from subprocess import check_call
 from subprocess import check_output
 
-# Returns array of currently running sessions sorted by alphanumeric order
-# TODO figure out how to break this up and fail correctly
-def sessions():
-    out=check_output("tmux list-sessions | cut -d \":\" -f1 | sort -d", shell=True, stderr=STDOUT)
-    match=re.match("failed to connect to server.*", out)
-    if match:
-        raise CalledProcessError("1", "tmux list-sessions", "No tmux sessions currently accessible")
-    else:
-        return out.splitlines()
+def random_dict_word(dictionaries):
+    return random_line(get_dictionary("cracklib", dictionaries)).strip()
 
-def new_session(name):
-    try:
-        return check_output(["tmux new -s " + quote(name)], shell=True, stderr=STDOUT)
-    except CalledProcessError:
-        raise
-
-def quote(string):
-    if not re.match("^\".*\"$", string):
-        return '"' + string + '"'
-    else:
-        return string
-
-def timestamp():
-    return check_output(["date +%s"], shell=True)
-
-def attach(name):
-    try:
-        return check_output(["tmux attach -t " + quote(name)], shell=True, stderr=STDOUT)
-    except CalledProcessError:
-        raise
+def get_dictionary(name, dictionary):
+        return get_file(dictionary['location'])
 
 def random_line(afile):
     line = next(iter(afile))
@@ -66,51 +42,47 @@ def random_line(afile):
         line = aline
     return line
 
-def random_dict_word(dictionaries):
-    return random_line(get_dictionary("cracklib", dictionaries)).strip()
-
-def get_dictionary(name, dictionaries):
-    for d in dictionaries:
-        dict_name=d["name"]
-        dict_location=d["location"]
-
-        if dict_name == name:
-            return get_file(dict_location)
-
 def get_file(location):
-    with file(location) as f:
+    with open(location) as f:
         return f.readlines()
-
-def attach_new_session(name):
-    new_session(name)
 
 def gen_session_name():
     dictionaries=get_dictionaries()
-    return random_dict_word(dictionaries) + " " + random_dict_word(dictionaries)
+    return random_dict_word(dictionaries[0]) + " " + random_dict_word(dictionaries[0])
 
 def get_dictionaries():
-    dictionaries = [
+    return [
         {
             "name" : "cracklib",
             "location" : "/usr/share/dict/cracklib-small"
         }
     ]
 
-    return dictionaries
-
 ### BEGIN MAIN LOOP
+
+def f(x):
+    if x.get('session_attached') == False:
+        print("Returning true for" + x)
+        return True
+    else:
+        return False
 
 def main():
     try:
-        session=sessions()[0]
-        print("Attaching to " + session)
-        attach(session)
-    except CalledProcessError as e:
-        session_name = gen_session_name()
-        print("Creating new session " + session_name)
-        try:
-            attach_new_session(session_name)
-        except CalledProcessError as e:
-            print("Failed to create new session named '" + session_name + "'")
+        server=tmuxp.Server()
+        unattached = list(filter(lambda f: f, server.list_sessions()))
+    except tmuxp.exc.TmuxpException as t:
+        print("Caught TmuxpException: " + t)
+        unattached = None
+
+    if unattached is None:
+        target=gen_session_name()
+        print("Starting new tmux session '" + target + "'")
+        server.new_session(session_name=target)
+    else:
+        target=unattached[0]['session_name']
+
+    print("Attaching to tmux session '" + target + "'")
+    server.attach_session(target)
 
 main()
