@@ -60,19 +60,12 @@ def get_dictionaries():
 
 ### BEGIN MAIN LOOP
 
-def f(x):
-    if x.get('session_attached') == False:
-        print("Returning true for" + x)
-        return True
-    else:
-        return False
-
 def main():
     try:
         server=tmuxp.Server()
-        unattached = list(filter(lambda f: f, server.list_sessions()))
-    except tmuxp.exc.TmuxpException as t:
-        print("Caught TmuxpException: " + t)
+        unattached = subprocess.check_output("tmux list-sessions | grep -v 'attached' | awk -F ':' '{print $1}'", shell=True).decode("utf-8").splitlines()
+    except tmuxp.exc.TmuxpException:
+        print("Caught Exception")
         unattached = None
 
     if unattached is None:
@@ -80,7 +73,7 @@ def main():
         print("Starting new tmux session '" + target + "'")
         server.new_session(session_name=target)
     else:
-        target=unattached[0]['session_name']
+        target=unattached[0]
 
     print("Attaching to tmux session '" + target + "'")
     server.attach_session(target)
