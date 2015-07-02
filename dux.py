@@ -65,17 +65,14 @@ def main():
         server=tmuxp.Server()
         unattached = subprocess.check_output("tmux list-sessions | grep -v 'attached' | awk -F ':' '{print $1}'", shell=True).decode("utf-8").splitlines()
     except tmuxp.exc.TmuxpException:
-        print("Caught Exception")
         unattached = None
 
-    if unattached is None:
+    if not unattached:
         target=gen_session_name()
-        print("Starting new tmux session '" + target + "'")
         server.new_session(session_name=target)
     else:
         target=unattached[0]
 
-    print("Attaching to tmux session '" + target + "'")
     server.attach_session(target)
 
 main()
