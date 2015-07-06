@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 
 # Copyright (C) 2015 Chris Sivanich
 #
@@ -33,17 +33,13 @@ def random_dict_word(dictionaries):
     return random_line(dictionaries[0]).strip()
 
 def random_line(afile):
-    print("Grabbing random line from " + afile)
+    print("Random line from " + afile)
     afile=open(os.path.expanduser(afile))
     line = next(iter(afile))
     for num, aline in enumerate(afile):
         if random.randrange(num + 2): continue
         line = aline
     return line
-
-def get_file(location):
-    with open(location) as f:
-        return f.readlines()
 
 def gen_session_name():
     return random_dict_word(dictionaries()) + " " + random_dict_word(dictionaries())
@@ -58,14 +54,14 @@ def attach_session(name):
 
 def download_dict(adest):
     adest = os.path.expanduser(adest)
-    print("downloading dictionary from github to " + adest)
+    print("Downloading dictionary from github to " + adest)
 
-    if not os.path.exists(adest):
-        os.makedirs(os.path.dirname(adest))
-    try:
-        urllib.URLopener().retrieve("https://raw.githubusercontent.com/atebits/Words/master/Words/en.txt", adest)
-    except Exception:
-        print("Failed to download dictionary")
+    dest_dir = os.path.dirname(adest)
+    if not os.path.exists(dest_dir):
+        os.makedirs(dest_dir)
+
+    u = urllib.URLopener()
+    u.retrieve("https://raw.githubusercontent.com/atebits/Words/master/Words/en.txt", adest)
 
 def dictionaries():
     afile="~/.dux/dict"
