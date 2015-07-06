@@ -63,7 +63,7 @@ def get_dictionaries():
 def main():
     try:
         server=tmuxp.Server()
-        unattached = subprocess.check_output("tmux list-sessions | grep -v 'attached' | grep -v \"^*\" awk -F ':' '{print $1}'", shell=True).decode("utf-8").splitlines()
+        unattached = subprocess.check_output("tmux list-sessions | grep -v 'attached' | grep -v \"^*\" | awk -F ':' '{print $1}'", shell=True).decode("utf-8").splitlines()
     except tmuxp.exc.TmuxpException:
         unattached = None
 
