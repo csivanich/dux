@@ -78,14 +78,14 @@ if os.environ.get('TMUX'):
     exit(127)
 
 try:
-    list_of_unattached = unattached()
+    sessions = unattached()
 except Exception:
-    list_of_unattached = None
+    sessions = None
 
-if not list_of_unattached:
+if sessions:
+    attach_session(sessions.pop())
+else:
     print("No unattached sessions found")
     new_session(gen_session_name())
-else:
-    attach_session(list_of_unattached.pop())
 
 print("done")
