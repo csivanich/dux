@@ -74,7 +74,7 @@ def unattached():
 
 ### BEGIN MAIN
 if os.environ.get('TMUX'):
-    print("Will not run inside existing tmux session! ($TMUX is set)")
+    print("Dux will not run inside existing tmux session! ($TMUX is set)")
     exit(127)
 
 try:
