@@ -1,11 +1,11 @@
-**DUX** - A Tmux wrapper to pool sessions
+![Header](header.png)
 =======
 
-Dux is a python script to allow pooling of Tmux sessions.
+###### Pool your tmux sessions
 
-**Dux is currently a proof-of-concept**, but already can:
- - Create new sessions with generated names
- - Attach to unattached sessions
+------
+
+Want to ignore a session from reconnection? Start its name with a `*` and it will be ignored.
 
 This is just a start, **Dux will eventually include**:
  - Rule-based session auto-attaching
