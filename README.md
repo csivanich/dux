@@ -1,5 +1,9 @@
-**DUX** - A Tmux wrapper to pool sessions
+![Header](header.png)
 =======
+
+###### A Tmux wrapper to pool sessions
+
+------
 
 Dux is a python script to allow pooling of Tmux sessions.
 
