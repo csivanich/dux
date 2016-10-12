@@ -69,7 +69,7 @@ def dictionaries():
         download_dict(afile)
     return [afile]
 
-def unattached():
+def get_unattached_sessions():
     return subprocess.check_output("tmux list-sessions | grep -v 'attached' | grep -v \"^*\" | awk -F ':' '{print $1}'", shell=True).decode("utf-8").splitlines()
 
 ### BEGIN MAIN
@@ -77,10 +77,7 @@ if os.environ.get('TMUX'):
     print("Dux will not run inside existing tmux session! ($TMUX is set)")
     exit(127)
 
-try:
-    sessions = unattached()
-except Exception:
-    sessions = None
+sessions = get_unattached_sessions()
 
 if sessions:
     attach_session(sessions.pop())
