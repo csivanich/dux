@@ -34,7 +34,7 @@ Want to open a long-running session which should be left alone (e.g. daemon or v
 
 #### That's it?
 
-Well, kinda. You'll probably want to kick of Dux when you start your shell - that's an excersize left to the reader, though *shameless plug alert* checkout my [dotfiles](https://github.com/csivanich/dotfiles) for an example which kicks it off on zsh's start.
+Well, kinda. You'll probably want to kick of Dux when you start your shell - that's an excersize left to the reader, though. *Shameless plug alert* checkout my [dotfiles](https://github.com/csivanich/dotfiles) for an example which kicks it off on zsh's start.
 
 #### So what's next?
 
