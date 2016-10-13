@@ -45,4 +45,8 @@ Well, kinda. You'll probably want to kick of Dux when you start your shell - tha
 
 ## Special thanks:
 
-- [github.com/atebits/Words](https://github.com/atebits/Words) - Word list to run session name generation. Licensed under CC0 Public Domain.
+- [github.com/atebits/Words](https://github.com/atebits/Words) - Word list to run session name generation and licensed under CC0 Public Domain.
+
+## Legal
+
+Dux is licensed under GPLv2 (c) 2016 Chris Sivanich
