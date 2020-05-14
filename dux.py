@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
 # Copyright (C) 2015 Chris Sivanich
 #
@@ -21,7 +21,7 @@ import random
 import re
 import shlex
 import subprocess
-import urllib
+import urllib.request
 
 from subprocess import CalledProcessError
 from subprocess import Popen
@@ -60,7 +60,7 @@ def download_dict(adest):
     if not os.path.exists(dest_dir):
         os.makedirs(dest_dir)
 
-    u = urllib.URLopener()
+    u = urllib.request.URLopener()
     u.retrieve("https://raw.githubusercontent.com/atebits/Words/master/Words/en.txt", adest)
 
 def dictionaries():
