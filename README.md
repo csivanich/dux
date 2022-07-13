@@ -25,7 +25,7 @@ Want to open a long-running session which should be left alone (e.g. daemon or v
 ## What do I need for Dux?
 
 - tmux 2.X, 1.X is untested
-- python 2
+- python 3
 - `dux.py`
 
 ## How do I run Dux?
@@ -49,4 +49,4 @@ Well, kinda. You'll probably want to kick of Dux when you start your shell - tha
 
 ## Legal
 
-Dux is licensed under GPLv2 (c) 2016 Chris Sivanich
+Dux is licensed under GPLv2 (c) 2022 Chris Sivanich
